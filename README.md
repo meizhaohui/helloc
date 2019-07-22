@@ -1,5 +1,13 @@
 # C程序设计语言总结
 
+- 注：实验环境Manjaro发行版。
+
+  ```shell
+  [mzh@manjaro helloc]$ uname -r
+  4.19.28-1-MANJARO
+  
+  ```
+
 - 学习一门新程序设计语言的唯一途径就是使用它编写程序。
 
 ## 第一个程序hello world
