@@ -360,9 +360,66 @@ int main()
 示例中定义了```LOWER```,```UPPER```,```STEP```三个符号常量。
 
 - 符号常量不是变量，不需要出现在声明中。
-
 - 符号常量通常使用大写字母拼写，这样很容易与小写字母拼写的变量名相区别。
-
 - ```#define```指令定义符号常量的行的末尾**不需要分号结尾**！
 
-  
+## ```getchar()```,```putchar()```字符输入与输出
+
+- 无论文本从可处输入，输出到何处，其输入，输出都是按照字符流的方式处理。。
+- 文本流是由多行字符构成的字符序列，而每行字符则是由0个或多个字符组成，行末是一个换行符。
+- 标准库负责使每个输入/输出流都 能够遵守这一模型。
+- 标准库提供了一次读/写一个字符的函数，其中最简单的是```getchar()```,```putchar()```两个函数。
+- ```getchar()```每次从文本流中读入下一个输入字符，并将其作为结果值返回。
+- ```putchar(c)```将打印变量c的内容，通常是显示在屏幕上。
+
+在不了解其他输入/输出知识的情况下，可以使用```getchar()```,```putchar()```函数编写出数量惊人的有用代码。
+
+### 将输入流原样显示在输出流
+
+每读入一个字符后，就把这个字符原样显示在输出流中，如下示例：
+
+```c
+[mzh@manjaro source]$ cat getcharputchar.c
+/**
+*@file getcharputchar.c
+*@brief 将输入字符复制到输出 
+*@author Zhaohui Mei<mzh.whut@gmail.com>
+*@date 2019-07-24
+*@return 0
+*/
+
+#include <stdio.h>
+
+int main()
+{
+    int c;
+
+    c = getchar();
+    while(c != EOF)
+    {
+        putchar(c);
+        c = getchar();
+    }
+    return 0;
+}
+```
+
+编译并运行：
+
+```shell
+[mzh@manjaro source]$ cc getcharputchar.c -o getcharputchar.out
+[mzh@manjaro source]$ ./getcharputchar.out 
+a
+a
+b
+b
+c
+c
+```
+
+运行时，我输入字母a，马上就输出字母a，我再输出字母b，马上就输出字母b，我再输出字母c，马上就输出字母c，我按Ctrl-D终止，此时程序就自动退出了。
+
+- Linux中，在新的一行的开头，按下Ctrl-D，就代表EOF（如果在一行的中间按下Ctrl-D，则表示输出"标准输入"的缓存区，所以这时必须按两次Ctrl-D）。参考[EOF是什么？](http://www.ruanyifeng.com/blog/2011/11/eof.html "EOF是什么？")
+
+- 字符在键盘，屏幕或其他任何地方无论以什么形式表现，它在机器内部都是以位模式存储的。```char```类型专门用于存储这种字符型数据，当然任何整型(```int```)也可以用于存储字符型数据，出于某些潜在的重要原因，在此使用```int```类型。
+- ```EOF```表示文件结束，End of file。定义在头文件```stdio.h```中 ，定义如下``` #define EOF (-1)```。
