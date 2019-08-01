@@ -420,6 +420,216 @@ c
 运行时，我输入字母a，马上就输出字母a，我再输出字母b，马上就输出字母b，我再输出字母c，马上就输出字母c，我按Ctrl-D终止，此时程序就自动退出了。
 
 - Linux中，在新的一行的开头，按下Ctrl-D，就代表EOF（如果在一行的中间按下Ctrl-D，则表示输出"标准输入"的缓存区，所以这时必须按两次Ctrl-D）。参考[EOF是什么？](http://www.ruanyifeng.com/blog/2011/11/eof.html "EOF是什么？")
-
 - 字符在键盘，屏幕或其他任何地方无论以什么形式表现，它在机器内部都是以位模式存储的。```char```类型专门用于存储这种字符型数据，当然任何整型(```int```)也可以用于存储字符型数据，出于某些潜在的重要原因，在此使用```int```类型。
 - ```EOF```表示文件结束，End of file。定义在头文件```stdio.h```中 ，定义如下``` #define EOF (-1)```。
+
+
+
+使用赋值语句形成复杂语句实现同样的功能：
+
+```c
+[mzh@manjaro source]$ cat getcharnotequaleof.c
+/**
+*@file getcharnotequaleof.c
+*@brief 使用赋值语句  
+*@author Zhaohui Mei<mzh.whut@gmail.com>
+*@date 2019-08-01
+*@return 0
+*/
+
+#include <stdio.h>
+
+int main()
+{
+    int c;
+    while ((c = getchar()) != EOF)
+    {
+        putchar(c);
+    }
+    return 0;
+}
+```
+
+### 字符统计
+
+下面统计输入了多少个字符：
+
+```c
+[mzh@manjaro source]$ cat countchar.c
+/**
+*@file countchar.c
+*@brief 统计字符数 
+*@author Zhaohui Mei<mzh.whut@gmail.com>
+*@date 2019-08-01
+*@return nc
+*/
+
+#include <stdio.h>
+
+int main()
+{
+    long nc = 0;
+    while (getchar() != EOF)
+    {
+        ++nc;
+    }
+    printf("%ld\n", nc);
+    return nc;
+}
+
+```
+
+编译并运行：
+
+```shell
+[mzh@manjaro source]$ cc countchar.c -o countchar.out 
+[mzh@manjaro source]$ ./countchar.out 
+a
+b
+c
+d
+8
+```
+
+由于输入字符a/b/c/d后都按了一次Enter回车键，所以每行相当于输入了两个字符，一共输入了8个字符。
+
+### 行统计
+
+下面统计输入的行数：
+
+```c
+[mzh@manjaro source]$ cat countline.c
+/**
+*@file countline.c
+*@brief 统计行数 
+*@author Zhaohui Mei<mzh.whut@gmail.com>
+*@date 2019-08-01
+*@return nl
+*/
+
+#include <stdio.h>
+
+int main()
+{
+    int c = 0;
+    int nl = 0;
+    while ((c = getchar() ) != EOF)
+    {
+        if (c == '\n')
+        {
+            ++nl;
+        }
+    }
+    printf("lines: %d\n", nl);
+    return nl;
+}
+```
+
+编译并执行：
+
+```shell
+[mzh@manjaro source]$ cc countline.c -o countline.out
+[mzh@manjaro source]$ ./countline.out 
+ab
+cd
+ef
+gh
+lines: 4
+```
+
+一共输入了四行，最后按Ctrl+D时就会打印行数：lines:4 。
+
+### 将连续的多个空格用一个空格代替
+
+练习1-9：编写一个将输入复制到输出的程序，并将其中连续的多个空格用一个空格代替。
+
+```c
+[mzh@manjaro source]$ cat replacemultispace2onespace.c
+/**
+*@file replacemultispace2onespace.c
+*@brief 将输入复制到输出，并将连接多个空格用一个空格代替 
+*@author Zhaohui Mei<mzh.whut@gmail.com>
+*@date 2019-08-01
+*@return 0 
+*/
+
+#include <stdio.h>
+
+int main()
+{
+    int c;
+    c = getchar(); // 读取字符
+    while (c != EOF)  // 不是文件结尾符时
+    {
+        if (c == ' ')  // 如果读取到的字符时空格
+        {
+            putchar(c); // 先将空格打印出来
+            // 然后循环读取后面的字符，如果字符是空格，不打印
+            // 如果不是空格，则跳出内层while语句
+            while((c=getchar()) == ' ' && c != EOF)
+            {
+                ;
+            }
+        }
+        putchar(c); // 打印内层while中检查到的非空格字符
+        c = getchar(); // 再读取下一个字符
+    }
+    return 0;
+}
+```
+
+编译并运行：
+
+```shell
+[mzh@manjaro source]$ cc replacemultispace2onespace.c -o replacemultispace2onespace.out
+[mzh@manjaro source]$ ./replacemultispace2onespace.out 
+aa bb   cc   ddd   eeee      fff    ggg
+aa bb cc ddd eeee fff ggg
+```
+
+### 将制表符用"\t"代替显示
+
+练习1-10：编写一个将输入复制到输出的程序，并将其中的制表符替换为\t，将反斜杠替换为\\\。
+
+```c
+[mzh@manjaro source]$ cat replacechars.c
+/**
+*@file replacechars.c
+*@brief 输入复制到输出，并替换多个字符 
+*@author Zhaohui Mei<mzh.whut@gmail.com>
+*@date 2019-08-01
+*@return 0
+*/
+
+#include <stdio.h>
+
+int main()
+{
+    int c;
+    while((c = getchar()) != EOF)
+    {
+        if (c == '\t')
+            printf("\\t");
+        if (c == '\b')
+            printf("\\b");
+        if (c == '\\')
+            printf("\\\\");
+        if ((c != '\t') && (c != '\b') && (c != '\\'))
+            putchar(c);
+    }
+    return 0;
+}
+```
+
+编译并运行：
+
+```shell
+[mzh@manjaro source]$ ./replacechars.out 
+a	b       c
+a\tb\tc
+a\b\c
+a\\b\\c
+```
+
+
+
