@@ -1,12 +1,18 @@
 # C程序设计语言总结
 
-- 注：实验环境Manjaro发行版。
+- 注：实验环境Manjaro发行版和Windows 10系统。
 
-  ```shell
-  [mzh@manjaro helloc]$ uname -r
-  4.19.28-1-MANJARO
-  
-  ```
+Manjaro系统：
+```shell
+[mzh@manjaro helloc]$ uname -r
+4.19.28-1-MANJARO
+```
+
+Windows 10系统：
+```cmd
+$ uname -a
+MSYS_NT-10.0 LAPTOP-8OESE8K5 2.5.0(0.295/5/3) 2016-03-31 18:47 x86_64 Msys  
+```
 
 - 学习一门新程序设计语言的唯一途径就是使用它编写程序。
 - 总结主要基于《C程序设计语言 第2版新版 徐宝文译》一书。
@@ -688,8 +694,221 @@ int main()
 
 ```shell
 [mzh@manjaro source]$ cc count_words.c -o count_words.out
-[mzh@manjaro source]$ count_words.out < count_words.c
+[mzh@manjaro source]$ ./count_words.out < count_words.c
 43 124 1076
 ```
 
 注：第1章后面讲的数组、函数、参数--传值调用、字符数组、外部变量与作用域，相对较难，后续补充。
+
+## 第2章 类型、运算符与表达式
+
+- 变量和常量是程序处理的两种基本数据对象。
+- 声明语句说明变量的名字及类型，也可以指定变量的初值。
+- 运算符指定将要进行的操作。
+- 表达式则把变量与常量组合起来生成新的值。
+- 对象的类型决定该对象可取值的集合以及可以对该对象执行的操作。
+- 所有整型都包含``signed(带符号)``和``unsigned(无符号)``两种形式。
+- 对象可以声明为``const(常量)``类型，表明其值不能修改。
+
+### 变量名的限定
+
+- 对常量的命名与符号常量的命名存在一些限定条件。
+- 名字是由字母(a-zA-Z)和数字(0-9)组成的序列，下划线(_)被看作字母，名字开头不能是下划线。
+- 使用下划线可以提高变量名的可读性。
+- 名字大小写敏感的。
+- 变量名使用使用小写字母(lower_case_with_underline)，符号常量名全部使用大写字母(UPPER_CASE_WITH_UNDERLINE)。
+- 名称要能够尽可能从字面上表达变量的用途。
+
+### 数据类型及长度
+
+使用下面的图形表示C语言数据类型(注：MarkDown图形的绘制参考https://blog.csdn.net/whatday/article/details/88655461)：
+
+```mermaid
+graph LR;
+  C语言数据类型-->基本类型
+  C语言数据类型-->指针类型
+  C语言数据类型-->空类型void
+  C语言数据类型-->构造类型
+  基本类型-->整型
+  基本类型-->浮点型
+  基本类型-->字符类型char
+  整型-->短整型short
+  整型-->整型int
+  整型-->长整型long
+  浮点型-->单精度浮点型float
+  浮点型-->双精度浮点型double
+  构造类型-->数组
+  构造类型-->结构体struct
+  构造类型-->共用体union
+  构造类型-->枚举类型enum
+```
+
+- 此处仅说明基本类型， ``short``、``int``、``long``、``float``、``double``、``char``这六个关键字代表C语言里面的六种基本数据类型。
+- 字符类型``char``占用1个字节，可以存放本地字符集中的一个字符。
+- 各种类型的存储大小与系统位数有关，但目前通用的以64位系统为主。
+- 可以使用``sizeof``获取类型的长度，表达式``sizeof(type)``得到对象或类型的存储字节大小。
+
+使用下面的代码获取``short``、``int``、``long``、``float``、``double``、``char``基本数据类型在Linux和Windows 10系统中的长度：
+
+```shell
+$ cat base_data_type.c                                         
+/**                                                            
+*@file base_data_type.c                                        
+*@brief 基本数据类型                                           
+*@author Zhaohui Mei<mzh.whut@gmail.com>                       
+*@date 2019-10-20                                              
+*@return 0                                                     
+*/                                                             
+                                                               
+#include <stdio.h>                                             
+#include <limits.h>                                            
+                                                               
+int main()                                                     
+{                                                              
+    printf("char占用的内存大小是%d\n", sizeof(char));          
+    printf("short占用的内存大小是%d\n", sizeof(short));        
+    printf("int占用的内存大小是%d\n", sizeof(int));            
+    printf("long占用的内存大小是%d\n", sizeof(long));          
+    printf("float占用的内存大小是%d\n", sizeof(float));        
+    printf("double占用的内存大小是%d\n", sizeof(double));      
+    return 0;                                                  
+}                                                              
+```
+
+在Linux系统上面编译运行：
+
+```shell
+[mzh@manjaro source]$ cc base_data_type.c -o base_data_type.out
+[mzh@manjaro source]$ ./base_data_type.out
+char占用的内存大小是1
+short占用的内存大小是2
+int占用的内存大小是4
+long占用的内存大小是8
+float占用的内存大小是4
+double占用的内存大小是8
+```
+
+在Windows 10系统上面编译运行：
+```cmd
+D:\data\github_tmp\helloc\source (master -> origin)   
+$ chcp 65001                                          
+Active code page: 65001                               
+                                                      
+D:\data\github_tmp\helloc\source (master -> origin)   
+$ cc base_data_type.c -o base_data_type.out           
+                                                      
+D:\data\github_tmp\helloc\source (master -> origin)   
+$ base_data_type.out                                  
+char占用的内存大小是1                                 
+short占用的内存大小是2                                
+int占用的内存大小是4                                  
+long占用的内存大小是4                                 
+float占用的内存大小是4                                
+double占用的内存大小是8                               
+```
+
+可以看到``long``长整型在Linux系统和Windows系统上面存在差异。
+
+### 常量
+
+- 类似于1 2 3 4 的整数常量属于``int``类型。
+- ``long``长整型类型的常量以字母l或L结尾。
+- 没有后缀的浮点数为``double``类型，后缀f或F表示为``float``类型，后缀l或L表示为``long double``类型。
+- 无符号常量以字母u或U结尾，后缀ul或UL表明是``unsigned long``类型。
+- 前缀为0的整型常量表示它是八进制形式。十进制31可以写成八进制形式037。
+- 前缀为0x或0X的整型常量表示它是十六进制形式。十进制31可以写成十六进制形式0x1f或0X1F。
+- 一个字符常量是一个整数，书写时将一个字符括在单引号中，如'x'。字符在机器字符集中的数值就是字符常量的值。
+- 某些字符可以通过转义字符序列(例如：换行符\n)表示为字符和字符串常量。
+- 转义字符序列看起来像两个字符，但只表示一个字符。
+- 可以使用'\ooo'表示任意的字节大小的位模式，其中ooo代表1~3个八进制数字(0~7)。
+- 也可以使用'\xhh'表示任意的字节大小的位模式，其中hh代表1个或多个十六进制数字(0~9,a~f,A~F)。
+
+下表是ANSI C语言中的全部转义字符序列：
+
+| 转义字符 | ASCII码值(十进制)   |          意义                        |
+| -------- | :------------------ | :----------------------------------: |
+| \\a      | 007                 | 响铃符(BEL)                          |
+| \\b      | 008                 | 退格符(BS)，将当前位置移到前一列     |
+| \\f      | 012                 | 换页符(FF)，将当前位置移到下页开头   |
+| \\n      | 010                 | 换行符(LF)，将当前位置移到下一行开头 |
+| \\r      | 013                 | 回车符(CR) ，将当前位置移到本行开头  |
+| \\t      | 009                 | 水平制表符(HT)                       |
+| \\v      | 011                 | 垂直制表符(VT)                       |
+| \\\\     | 092                 | 反斜杠                               |
+| \\\'     | 039                 | 单引号                               |
+| \\\"     | 034                 | 双引号                               |
+| \ooo     | -                   | 八进制                               |
+| \xhh     | -                   | 十六进制                             |
+
+- 字符常量'\0'表示值为0的字符，也就是空字符(null)。
+- 通常用'\0'的形式代替0，以强调某些表达式的字符属性，但其数字值为0。
+- 常量表达式是仅仅包含常量的表达式。
+- 常量表达式在编译时求值，而不是在运行时求值。它可以出现在常量可以出现的任何位置。
+
+常量表达式示例：
+
+```c
+#define MAXLINE 1000
+#define LEAP 1 // 闰年
+char line[MAXLINE+1];
+int days[31+28+LEAP+31+30+31+30+31+31+30+31+30+31];
+```
+
+#### 字符串常量
+
+- 字符串常量也叫做字符串字面值。
+- 字符串常量是用双引号括起来的0个或多个字符组成的字符序列。例如"I am a string"。
+- 空字符串常量""。
+- 双引号不是字符串的一部分，它只用于限定字符串。
+- 编译时可以将多个字符串常量连接起来，例如： "hello," " world"与"hello, world"等价。
+- 字符串常量的连接为将较长的字符串分散在若干个源文件行中提供了支持。
+- 从技术角度看，字符串常量就是字符数组。
+- 字符串的内部表示使用一个空字符'\0'作为字符串的结尾。
+- 存储字符串的物理存储单元数比括在双引号中的字符数多一个。
+- C语言对字符串的长度没有限制，但程序必须扫描完整个字符串后才能确定字符串的长度。
+- 标准库函数``strlen(s)``可以返回字符串参数s的长度，但长度不包括末尾的'\0'。
+- 标准头文件<string.h>中声明了strlen和其他字符串函数。
+
+获取字符串的长度:
+
+```shell
+$cat base_data_type.c
+/**
+*@file count_string_length.c
+*@brief count string length
+*@author Zhaohui Mei<mzh.whut@gmail.com>
+*@date 2019-10-20
+*@return 0
+*/
+
+#include <stdio.h>
+
+// my_strlen函数返回a的长度
+int my_strlen(char a[])
+{
+    int i = 0;
+    while(a[i] != '\0')
+        ++i;
+    return i;
+}
+
+int main()
+{
+    char string[] = "Hello World";
+    printf("\"Hello World\"字符串的长度为%d", my_strlen(string));
+    return 0;
+}
+```
+
+在Windows 10系统上面编译运行：
+```cmd
+D:\data\github_tmp\helloc\source (master -> origin)    
+$ cc count_string_length.c -o count_string_length.out  
+                                                       
+D:\data\github_tmp\helloc\source (master -> origin)    
+$ count_string_length.out                              
+"Hello World"字符串的长度为11                          
+```
+
+- 字符常量与仅包含一个字符的字符串有差别的。
+- 'x'和"x"是不同的，'x'是一个整数，其值是字线x在机器字符集中对应的数值；"x"是一个包含一个字符(即字母x)以及一个结尾符'\0'的字符数组。
