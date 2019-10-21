@@ -911,4 +911,68 @@ $ count_string_length.out
 ```
 
 - 字符常量与仅包含一个字符的字符串有差别的。
+
 - 'x'和"x"是不同的，'x'是一个整数，其值是字线x在机器字符集中对应的数值；"x"是一个包含一个字符(即字母x)以及一个结尾符'\0'的字符数组。
+
+#### 枚举常量
+
+- 枚举常量是另一种类型的常量，枚举是一个常量整型值的列表。
+- 例如： ``enum boolean { YES, NO };``
+  
+- 在没有显式说明的情况下，enum枚举类型的第一个枚举名的值为0，第二个为1，第三个为2，以此类推。
+
+- enum枚举类型如果只指定了部分枚举名的值，那么未指定值的枚举名的值将依着最后一个指定值向后递增。
+
+- 不同枚举中的名字必须互不相同，同一个枚举中不同的名字可以具有相同的值。
+
+- 枚举类型不连续时，无法遍历。
+
+- 枚举元素可以直接使用。
+
+- 每个枚举元素可以作为一个整型的宏定义。
+
+看如下示例：
+```shell
+[mzh@manjaro source]$ cat use_enum.c
+/**
+*@file use_enum.c
+*@brief  使用enum枚举类型 
+*@author Zhaohui Mei<mzh.whut@gmail.com>
+*@date 2019-10-21
+*@return 0
+*/
+
+#include <stdio.h>
+
+enum season {spring, summer, autumn=3, winter};
+
+enum DAY {MON=1, TUE, WED, THU=7, FRI, SAT, SUN};
+
+int main()
+{
+    printf("spring: %d\n", spring);
+    printf("summer: %d\n", summer);
+    printf("autumn: %d\n", autumn);
+    printf("winter: %d\n", winter);
+    printf("DAY枚举常量%d %d %d %d %d %d %d\n", MON, TUE, WED, THU, FRI, SAT, SUN );
+}
+```
+
+编译并执行：
+```shell
+[mzh@manjaro source]$ cc use_enum.c -o use_enum.out
+[mzh@manjaro source]$ ./use_enum.out 
+spring: 0
+summer: 1
+autumn: 3
+winter: 4
+DAY枚举常量1 2 3 7 8 9 10
+```
+可以看出：
+
+对于season枚举类型中，第一/二/四个元素没没有指定具体的值，仅指定第三个元素autumn=3，根据上面的说明，第一个元素spring为0，第二个元素为1，第四个元素winter在autumn后面，所有是3+1=4，即winter元素对应的值是4。
+
+而对于DAY枚举类型，因为定义了第一个元素MON=1和第四个元素THU=7，第二第三元素(TUE, WED)在这两个元素之间，所以依次是TUE=1+1=2，WED=TUE+1=2+1=3，第五第六第七元素在第四元素THU后面，因此值依次为8，9，10。
+
+- 枚举类型为建立常量值与名字之间的关联提供了一种便利的方式。
+- 相对于``#define``语句来说，枚举类型的优势在于常量值可以自动生成。
