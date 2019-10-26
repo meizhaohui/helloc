@@ -1,5 +1,5 @@
 /**
-*@file test_auto_static
+*@file test_auto_static.c
 *@brief  测试auto自动变量和static静态变量
 *@author Zhaohui Mei<mzh.whut@gmail.com>
 *@date 2019-10-21
