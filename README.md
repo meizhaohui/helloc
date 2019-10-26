@@ -4,12 +4,12 @@
 
 Manjaro系统：
 ```shell
-[mzh@manjaro helloc]$ uname -r
+$ uname -r
 4.19.28-1-MANJARO
 ```
 
 Windows 10系统：
-```cmd
+```shell
 $ uname -a
 MSYS_NT-10.0 LAPTOP-8OESE8K5 2.5.0(0.295/5/3) 2016-03-31 18:47 x86_64 Msys  
 ```
@@ -27,7 +27,7 @@ helloworld.c文件内容如下：
 
 int main()
 {
-	printf("Hello,world\n");
+    printf("Hello,world\n");
 }
 ```
 
@@ -48,9 +48,9 @@ cc helloworld.c -o helloworld.out
 运行：
 
 ```shell
-[mzh@manjaro c]$ ./a.out 
+$ ./a.out 
 Hello,world
-[mzh@manjaro c]$ ./helloworld.out 
+$ ./helloworld.out 
 Hello,world
 ```
 
@@ -70,7 +70,7 @@ Hello,world
 打印华氏温度与摄氏温度对照表，对应关系为 ```C=(5/9)(F-32)```。
 
 ```c
-[mzh@manjaro source]$ cat fahrenheit2celsius.c
+$ cat fahrenheit2celsius.c
 /**
 *@file fahrenheit2celsius.c
 *@brief 打印华氏温度与摄氏温度对照表
@@ -104,7 +104,7 @@ int main()
 生成输出文件```fahrenheit2celsius.out ``` 并运行：
 
 ```shell
-[mzh@manjaro source]$ ./fahrenheit2celsius.out 
+$ ./fahrenheit2celsius.out 
 0	-17
 20	-6
 40	4
@@ -135,7 +135,7 @@ int main()
 上面温度转换存在两个问题，输出不是右对齐，不够美观；摄氏温度的精确度不够。我们进行优化：
 
 ```c
-[mzh@manjaro source]$ cat fahrenheit2celsius.c
+$ cat fahrenheit2celsius.c
 /**
 *@file fahrenheit2celsius.c
 *@brief 打印华氏温度与摄氏温度对照表
@@ -170,7 +170,7 @@ int main()
 生成输出文件```fahrenheit2celsius.out ``` 并运行：
 
 ```shell
-[mzh@manjaro source]$ ./fahrenheit2celsius.out 
+$ ./fahrenheit2celsius.out 
   F      C
   0  -17.8
  20   -6.7
@@ -199,7 +199,7 @@ int main()
 使用```for```循环实现上面的功能：
 
 ```c
-[mzh@manjaro source]$ cat fahrenheit2celsius_for.c
+$ cat fahrenheit2celsius_for.c
 /**
 *@file fahrenheit2celsius_for.c
 *@brief 打印华氏温度与摄氏温度对照表
@@ -227,7 +227,7 @@ int main()
 生成输出文件```fahrenheit2celsius_for.out ``` 并运行：
 
 ```shell
-[mzh@manjaro source]$ ./fahrenheit2celsius_for.out 
+$ ./fahrenheit2celsius_for.out 
   F      C
   0  -17.8
  20   -6.7
@@ -253,7 +253,7 @@ int main()
 以逆序打印转换表：
 
 ```c
-[mzh@manjaro source]$ cat fahrenheit2celsius_for.c
+$ cat fahrenheit2celsius_for.c
 /**
 *@file fahrenheit2celsius_for.c
 *@brief 打印华氏温度与摄氏温度对照表
@@ -281,7 +281,7 @@ int main()
 输出如下：
 
 ```shell
-[mzh@manjaro source]$ ./fahrenheit2celsius_for.out 
+$ ./fahrenheit2celsius_for.out 
   F      C
 300  148.9
 280  137.8
@@ -313,7 +313,7 @@ int main()
 下面对温度转换表程序进行优化，使用符号常量：
 
 ```c
-[mzh@manjaro source]$ cat fahrenheit2celsius_for_define.c 
+$ cat fahrenheit2celsius_for_define.c 
 /**
 *@file fahrenheit2celsius_for_define.c
 *@brief 打印华氏温度与摄氏温度对照表
@@ -344,8 +344,8 @@ int main()
 生成输出文件```fahrenheit2celsius_for_define.out ``` 并运行：
 
 ```shell
-[mzh@manjaro source]$ cc fahrenheit2celsius_for_define.c -o fahrenheit2celsius_for_define.out
-[mzh@manjaro source]$ ./fahrenheit2celsius_for_define.out 
+$ cc fahrenheit2celsius_for_define.c -o fahrenheit2celsius_for_define.out
+$ ./fahrenheit2celsius_for_define.out 
   F      C
   0  -17.8
  20   -6.7
@@ -387,7 +387,7 @@ int main()
 每读入一个字符后，就把这个字符原样显示在输出流中，如下示例：
 
 ```c
-[mzh@manjaro source]$ cat getcharputchar.c
+$ cat getcharputchar.c
 /**
 *@file getcharputchar.c
 *@brief 将输入字符复制到输出 
@@ -415,8 +415,8 @@ int main()
 编译并运行：
 
 ```shell
-[mzh@manjaro source]$ cc getcharputchar.c -o getcharputchar.out
-[mzh@manjaro source]$ ./getcharputchar.out 
+$ cc getcharputchar.c -o getcharputchar.out
+$ ./getcharputchar.out 
 a
 a
 b
@@ -436,7 +436,7 @@ c
 使用赋值语句形成复杂语句实现同样的功能：
 
 ```c
-[mzh@manjaro source]$ cat getcharnotequaleof.c
+$ cat getcharnotequaleof.c
 /**
 *@file getcharnotequaleof.c
 *@brief 使用赋值语句  
@@ -463,7 +463,7 @@ int main()
 下面统计输入了多少个字符：
 
 ```c
-[mzh@manjaro source]$ cat countchar.c
+$ cat countchar.c
 /**
 *@file countchar.c
 *@brief 统计字符数 
@@ -490,8 +490,8 @@ int main()
 编译并运行：
 
 ```shell
-[mzh@manjaro source]$ cc countchar.c -o countchar.out 
-[mzh@manjaro source]$ ./countchar.out 
+$ cc countchar.c -o countchar.out 
+$ ./countchar.out 
 a
 b
 c
@@ -506,7 +506,7 @@ d
 下面统计输入的行数：
 
 ```c
-[mzh@manjaro source]$ cat countline.c
+$ cat countline.c
 /**
 *@file countline.c
 *@brief 统计行数 
@@ -536,8 +536,8 @@ int main()
 编译并执行：
 
 ```shell
-[mzh@manjaro source]$ cc countline.c -o countline.out
-[mzh@manjaro source]$ ./countline.out 
+$ cc countline.c -o countline.out
+$ ./countline.out 
 ab
 cd
 ef
@@ -552,7 +552,7 @@ lines: 4
 练习1-9：编写一个将输入复制到输出的程序，并将其中连续的多个空格用一个空格代替。
 
 ```c
-[mzh@manjaro source]$ cat replacemultispace2onespace.c
+$ cat replacemultispace2onespace.c
 /**
 *@file replacemultispace2onespace.c
 *@brief 将输入复制到输出，并将连接多个空格用一个空格代替 
@@ -589,8 +589,8 @@ int main()
 编译并运行：
 
 ```shell
-[mzh@manjaro source]$ cc replacemultispace2onespace.c -o replacemultispace2onespace.out
-[mzh@manjaro source]$ ./replacemultispace2onespace.out 
+$ cc replacemultispace2onespace.c -o replacemultispace2onespace.out
+$ ./replacemultispace2onespace.out 
 aa bb   cc   ddd   eeee      fff    ggg
 aa bb cc ddd eeee fff ggg
 ```
@@ -600,7 +600,7 @@ aa bb cc ddd eeee fff ggg
 练习1-10：编写一个将输入复制到输出的程序，并将其中的制表符替换为\t，将反斜杠替换为\\\。
 
 ```c
-[mzh@manjaro source]$ cat replacechars.c
+$ cat replacechars.c
 /**
 *@file replacechars.c
 *@brief 输入复制到输出，并替换多个字符 
@@ -632,7 +632,7 @@ int main()
 编译并运行：
 
 ```shell
-[mzh@manjaro source]$ ./replacechars.out 
+$ ./replacechars.out 
 a	b       c
 a\tb\tc
 a\b\c
@@ -644,7 +644,7 @@ a\\b\\c
 下面的程序用于统计统计行数、单词数和字符数，此处对单词的定义比较宽松，它是任何其中不包含空格、换行符和制表符的字符序列。下面的程序功能类似于linux上的命令 ``wc`` 。
 
 ```c
-[mzh@manjaro source]$ cat count_words.c
+$ cat count_words.c
 /**
 *@file count_words.c
 *@brief 统计输入的行数、单词数与字符数
@@ -693,8 +693,8 @@ int main()
 编译并运行：
 
 ```shell
-[mzh@manjaro source]$ cc count_words.c -o count_words.out
-[mzh@manjaro source]$ ./count_words.out < count_words.c
+$ cc count_words.c -o count_words.out
+$ ./count_words.out < count_words.c
 43 124 1076
 ```
 
@@ -750,7 +750,7 @@ graph LR;
 
 使用下面的代码获取``short``、``int``、``long``、``float``、``double``、``char``基本数据类型在Linux和Windows 10系统中的长度：
 
-```shell
+```c
 $ cat base_data_type.c                                         
 /**                                                            
 *@file base_data_type.c                                        
@@ -778,8 +778,8 @@ int main()
 在Linux系统上面编译运行：
 
 ```shell
-[mzh@manjaro source]$ cc base_data_type.c -o base_data_type.out
-[mzh@manjaro source]$ ./base_data_type.out
+$ cc base_data_type.c -o base_data_type.out
+$ ./base_data_type.out
 char占用的内存大小是1
 short占用的内存大小是2
 int占用的内存大小是4
@@ -789,15 +789,12 @@ double占用的内存大小是8
 ```
 
 在Windows 10系统上面编译运行：
-```cmd
-D:\data\github_tmp\helloc\source (master -> origin)   
+```shell
 $ chcp 65001                                          
 Active code page: 65001                               
                                                       
-D:\data\github_tmp\helloc\source (master -> origin)   
 $ cc base_data_type.c -o base_data_type.out           
                                                       
-D:\data\github_tmp\helloc\source (master -> origin)   
 $ base_data_type.out                                  
 char占用的内存大小是1                                 
 short占用的内存大小是2                                
@@ -871,7 +868,7 @@ int days[31+28+LEAP+31+30+31+30+31+31+30+31+30+31];
 
 获取字符串的长度:
 
-```shell
+```c
 $cat base_data_type.c
 /**
 *@file count_string_length.c
@@ -901,11 +898,9 @@ int main()
 ```
 
 在Windows 10系统上面编译运行：
-```cmd
-D:\data\github_tmp\helloc\source (master -> origin)    
+```shell
 $ cc count_string_length.c -o count_string_length.out  
                                                        
-D:\data\github_tmp\helloc\source (master -> origin)    
 $ count_string_length.out                              
 "Hello World"字符串的长度为11                          
 ```
@@ -932,8 +927,8 @@ $ count_string_length.out
 - 每个枚举元素可以作为一个整型的宏定义。
 
 看如下示例：
-```shell
-[mzh@manjaro source]$ cat use_enum.c
+```c
+$ cat use_enum.c
 /**
 *@file use_enum.c
 *@brief  使用enum枚举类型 
@@ -960,8 +955,8 @@ int main()
 
 编译并执行：
 ```shell
-[mzh@manjaro source]$ cc use_enum.c -o use_enum.out
-[mzh@manjaro source]$ ./use_enum.out 
+$ cc use_enum.c -o use_enum.out
+$ ./use_enum.out 
 spring: 0
 summer: 1
 autumn: 3
@@ -983,6 +978,60 @@ DAY枚举常量1 2 3 7 8 9 10
 - 一个声明指定一种变量类型，后面所带的变量表可以包含一个或多个该类型的变量。
 - 建议一个声明只声明一个变量，这样便于向声明语句中添加注释，也便于以后修改。
 - 在声明的同时可以对变量进行初始化。
+- 使用``auto``关键字声明自动变量，使用``static``关键字声明静态变量。
+- ``auto``自动变量在函数结束后，会自动释放自动变量的存储空间。
+- ``static``自动变量在函数结束后，**不会**自动释放自动变量的存储空间。函数中的局部变量的值在函数调用结束后不消失而保留原值，即其占用的存储空间不释放，在下一次调用函数时，该变量已有值，就是上一次函数调用结束时的值。
+- 在函数中定义局部变量时，如果没有被声明为其他类型的变量都是自动变量。默认可以不写``auto``。
 - 默认情况下，外部变量与静态变量将被初始化为0。
 - 任何变量的声明都可以使用``const``限定符限定，该限定符指定变量的值不能被修改。
 - 用``const``限定符限定数组时，数组中所有元素的值都不能被修改。
+
+下面看一个自动变量和静态变量的例子：
+
+```c
+$ cat test_auto_static.c                                
+/**                                                     
+*@file test_auto_static                                 
+*@brief  测试auto自动变量和static静态变量               
+*@author Zhaohui Mei<mzh.whut@gmail.com>                
+*@date 2019-10-21                                       
+*@return 0                                              
+*/                                                      
+                                                        
+#include <stdio.h>                                      
+                                                        
+void test()                                             
+{                                                       
+    auto int a = 0;                                     
+    static int b = 3;                                   
+    a++;                                                
+    b++;                                                
+    printf("a: %d\n", a);                               
+    printf("b: %d\n", b);                               
+}                                                       
+                                                        
+int main()                                              
+{                                                       
+    for(int i = 0; i < 3; i++)                          
+    {                                                   
+        test();                                         
+    }                                                   
+    return 0;                                           
+}                                                       
+```
+
+编译并执行:
+
+```shell
+$ cc test_auto_static.c -o test_auto_static.out
+
+$ test_auto_static.out
+a: 1
+b: 4
+a: 1
+b: 5
+a: 1
+b: 6
+```
+
+可以看出，每次调用test()函数时，自动变量都会重新初始化为1，而静态变量第一次调用时初始化为3，使用"b++"增加后变成4，第一次调用结束后，静态变量b的值保留在内存空间中，并没有释放，第二次调用test()函数时，并不会再次执行初始化工作，而是直接使用上一次调用保留的值4，所以第二次打印出5。
