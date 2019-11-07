@@ -1065,7 +1065,125 @@ b: 6
 - 移位操作符``<<``左移、``>>``右移分别用于将运算的左操作数左移与右移，移动的位数则由右操作数指定(右操作数的值必须是非负数)。
 - ``+=``运算符称为赋值运算符，如``i += 2``等价于 ``i = i + 2``。
 
+### 条件表达式
 
+- 条件表达式(使用三元运算符``?:``)提供了另外一种方法编写判断程序代码段。
+- ``expr1 ? expr2 : expr3``,首先计算条件表达式中``expr1``，如果其值不等于0(为真)，则将``expr2``的值作不条件表达式的值，否则(也是``expr1``为假时)将``expr3``的值作不条件表达式的值。``expr2``和``expr3``只有一个表达式被计算。
+- 示例：``z = (a > b) ? a : b; // z=max(a, b)``。
+- 条件表达式的第一个表达式两边的圆括号并不是必需的。但建议使用圆括号，这样可以使表达式的条件部分更易于阅读。
 
+看下面的例子，使用条件表达式打印数组中的内容：
 
+```c
+$ cat print_list_content.c
+/**
+*@file print_list_content.c
+*@brief print the content of the list
+*@author Zhaohui Mei<mzh.whut@gmail.com>
+*@date 2019-11-07
+*@return 0
+*/
 
+#include <stdio.h>
+
+// 函数声明
+int print_list_content(int num);
+
+// 函数定义
+int print_list_content(int num)
+{
+    int list[num];
+    for (int i=0; i<num; i++)
+    {
+        list[i] = i;
+    }
+    for (int i=0; i<num; i++)
+    {
+        printf("%6d%c", list[i], (i%10==9 || i==num-1) ? '\n' : ' ');
+    }
+    return 0;
+}
+
+// 主函数
+int main()
+{
+    print_list_content(100);
+    return 0;
+}
+```
+编译并执行:
+
+```shell
+$ cc print_list_content.c -o print_list_content.out
+$ print_list_content.out                                               
+     0      1      2      3      4      5      6      7      8      9  
+    10     11     12     13     14     15     16     17     18     19  
+    20     21     22     23     24     25     26     27     28     29  
+    30     31     32     33     34     35     36     37     38     39  
+    40     41     42     43     44     45     46     47     48     49  
+    50     51     52     53     54     55     56     57     58     59  
+    60     61     62     63     64     65     66     67     68     69  
+    70     71     72     73     74     75     76     77     78     79  
+    80     81     82     83     84     85     86     87     88     89  
+    90     91     92     93     94     95     96     97     98     99  
+```
+
+可以看出每行打印出10个元素，每列之间使用空格隔开，每行用一个换行符结束。
+
+下面的程序是将大小字符串参数转换成小写字符串输出：
+
+```c
+$ cat upper2lower.c
+/**
+*@file upper2lower.c
+*@brief translate the UPPER string to lower string
+*@author Zhaohui Mei<mzh.whut@gmail.com>
+*@date 2019-11-07
+*@return 0
+*/
+
+#include <stdio.h>
+
+#define N 100
+
+// 函数声明
+int lower(char string[]);
+
+// 函数定义
+int lower(char string[N])
+{
+    for (int i=0; string[i] != '\0'; i++)
+    {
+        if ('A' <= string[i] && 'Z' >= string[i])
+        {
+            string[i] += 32;
+        }
+    }
+    for (int i=0; string[i] != '\0'; i++)
+    {
+        printf("%c", string[i]);
+    }
+    printf("\n");
+    return 0;
+}
+
+// 主函数
+int main(int argc, char *argv[])
+{
+    for (int count=0; count < argc; count++)
+        lower(argv[count]);
+    return 0;
+}
+
+```
+编译并执行:
+
+```shell
+$ cc upper2lower.c -o upper2lower.out
+$ upper2lower.out "Hello World" "C语言"
+upper2lower.out
+hello world
+c语言
+```
+
+可以看到命令行中输入的两个参数都成功的转换成了小写！
