@@ -1187,3 +1187,104 @@ c语言
 ```
 
 可以看到命令行中输入的两个参数都成功的转换成了小写！
+
+## 第3章 控制流
+
+- 程序语言中的控制流语句用于控制各计算操作执行的次序。
+- 在``x=0``、``i++``、``printf(...)``这样的表达式之后加上一个分号(;)，它们就变成了语句。
+- 分号是语句结束符。
+- 用一组花括号``{}``把一组声明和语句括在一起就构成了一个复合语句(也叫做程序块)。
+- 条件判断语句``if (表达式1)``、``else if (表达式2``、``else``，``else if (表达式2``、``else``部分是可选的。
+- 建议在有``if``语句嵌套的情况下使用花括号。
+
+### ``if``条件判断语句
+
+下面演示在折半查找(二分查找)中使用if条件判断语句的使用。
+
+```c
+$ cat half_interval_search.c
+/**
+*@file half_interval_search.c
+*@brief half-interval search 折半搜索/二分搜索，查找已经排序的数组v中是否存在某个特定的值x
+*@author Zhaohui Mei<mzh.whut@gmail.com>
+*@date 2019-11-09
+*@return 0
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// 函数声明
+int binsearch(int x, int v[], int n);
+
+// 函数定义
+int binsearch(int x, int v[], int n)
+{
+    int low = 0;
+    int high = n -1;
+    int mid = 0;
+    while (low <= high)
+    {
+        mid = (low + high)/2;
+        if (x < v[mid])
+        {
+            high = mid - 1;
+        }
+        else if (x > v[mid])
+        {
+            low = mid + 1;
+        }
+        else
+        {
+            return mid; // 找到了匹配的值，返回匹配值的序号
+        }
+    }
+    return -1;  // 没有匹配的值
+}
+
+// 主函数
+int main(int argc, char *argv[])
+{   
+    int x = atoi(argv[1]);  // atoi()把字符串转换为一个int整型
+    int v[] = {1, 2, 3, 4, 5, 6};
+    int n = 6;
+    int result = 0;
+    result = binsearch(x, v, n);
+    printf("Result:%d", result);
+    return 0;
+}
+```
+
+编译后执行：
+
+```shell
+$ cc half_interval_search.c -o half_interval_search.out
+$ half_interval_search.out 0                           
+Result:-1                                              
+$ half_interval_search.out 1                           
+Result:0                                               
+$ half_interval_search.out 2                           
+Result:1                                               
+$ half_interval_search.out 3                           
+Result:2                                               
+$ half_interval_search.out 4                           
+Result:3                                               
+$ half_interval_search.out 5                           
+Result:4                                               
+$ half_interval_search.out 6                           
+Result:5                                               
+$ half_interval_search.out 7                           
+Result:-1                                              
+```
+
+### ``switch``多路判断语句
+
+### ``while``循环语句
+
+### ``for``循环语句
+
+### ``do-while``循环语句
+
+### ``break``跳出循环语句
+
+### ``break``开始下一次循环语句
