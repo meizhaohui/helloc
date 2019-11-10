@@ -1363,7 +1363,6 @@ int main(int argc, char *argv[])
     count_digit_space();
     return 0;
 }
-
 ```
 
 编译后执行：
@@ -1466,7 +1465,6 @@ int main(int argc, char *argv[])
     printf("%s", t);
     return 0;
 }
-
 ```
 
 编译后执行：
@@ -1482,7 +1480,80 @@ Hello\t\tC\tlanguage
 
 ### ``while``循环语句
 
+- ``while``循环语句语法： ``while (表达式) {语句}``。
+- ``while``循环语句首先求表达式的值，如果其值为真(即非0),则执行大括号中的语句。并再次求该表达式的值。
+- 上述循环一直进行下去，直到表达式的值为假(即为0)为止，随后继续``while``循环语句后面的部分。
+- 没有初始化或重新初始化的操作，适合使用``while``循环语句。
+- ``while``循环语句中循环体可能一次也不会执行，如当表达式一直为假时，则不会执行循环体中的语句。
+
+之前的示例中已经使用过``while``循环语句，如``while ((c = getchar()) != EOF)``语句会不停地获取用户输入的字符，直到用户输入EOF结束标志符时，``while``循环语句才停止。
+
 ### ``for``循环语句
+
+- ``for``循环语句语法： ``for (表达式1; 表达式2; 表达式3) {语句}``。
+- ``for``循环语句最常见的情况是：表达式1与表达式3是赋值表达式或函数调用，表达式2是关系表达式。如``for(i = 0; i < n; i++)``。
+- ``for``循环语句中三个表达式都可以省略，但分号必须保留。
+- 如果省略测试条件，即表达式2，则认为其值永远是真值。
+- 如果语句中需要执行简单的初始化和变量递增，适合使用``for``循环语句。
+
+下面示例将字符串转换成相应的数字，支持前置空格，以及符号位的判断。
+
+```c
+$ cat my_atoi.c
+/**
+*@file my_atoi.c
+*@brief 将字符串转换成对应的数值函数atoi,可以处理字符串两端的空格，以前符号位的+/-正负号。
+*@author Zhaohui Mei<mzh.whut@gmail.com>
+*@date 2019-11-10
+*@return 0
+*/
+
+#include <stdio.h>
+#include <ctype.h>
+
+// 函数声明
+int my_atoi(char s[]);
+
+// 函数定义
+int my_atoi(char s[])
+{
+    int i, n, sign;
+    
+    for (i = 0; isspace(s[i]); i++)
+        ; // 如果是空白符，什么也不做
+    
+    sign = (s[i] == '-') ? -1 : 1;  // 获取标志位，如果以'-'开头，则是负数，否则是正数
+    
+    if (s[i] == '+' || s[i] == '-')
+        i++;  // 符号位不进行转换，直接跳过
+    for (n = 0; isdigit(s[i]); i++)  // 判断字符是否为数字
+        n = 10 * n + (s[i] - '0');  // 计算实际的正数值
+    return sign * n;  // 返回实际的值
+}
+
+// 主函数
+int main(int argc, char *argv[])
+{   
+    char s1[] = "    +12345";
+    char s2[] = "    -12345";
+    printf("'%s' translated to %d\n", s1, my_atoi(s1));
+    printf("'%s' translated to %d\n", s2, my_atoi(s2));
+    return 0;
+}
+```
+
+编译后执行：
+```shell
+$ cc my_atoi.c -o my_atoi.out
+$ my_atoi.out                         
+'    +12345' translated to 12345      
+'    -12345' translated to -12345     
+```
+
+上述程序存在以下缺陷：
+
+- 未对字符串中字符进行全面判断，如是否存在特殊字符、字母等。
+- 如果在数字后面仍存在空格，转换后的数据会异常。
 
 ### ``do-while``循环语句
 
