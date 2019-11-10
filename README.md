@@ -1557,6 +1557,66 @@ $ my_atoi.out
 
 ### ``do-while``循环语句
 
+- ``do-while``循环语句语法 ``do {循环体} while (表达式);`` 。
+- ``do-while``循环语句首先执行循环体中的语句，然后再求while后面的表达式的值。
+- 如果表达式的值为真，则再次执行循环体；当圆括号中的条件测试为假时，循环结束。
+- ``do-while``循环语句比``while``循环语句和``for``循环语句用得少得多。
+
 ### ``break``跳出循环语句
 
-### ``break``开始下一次循环语句
+- 不通过循环头部或尾总的条件测试而跳出循环，有时是很方便的，``break``语句可用于从``for``、``while``、``do-while``等循环中提前退出。
+- ``break``语句能使程序从``switch``语句或最内层循环中立即跳出。
+
+下面的示例移除字符串的最后的空白字符。
+
+```c
+$ cat my_trim.c
+/**
+*@file my_trim.c
+*@brief 删除字符串尾部的制表符、空格符和换行符。
+*@author Zhaohui Mei<mzh.whut@gmail.com>
+*@date 2019-11-10
+*@return 0
+*/
+
+#include <stdio.h>
+#include <string.h>
+
+// 函数声明
+char* my_trim(char s[]);
+
+// 函数定义
+char* my_trim(char s[])
+{
+    int n;
+    
+    for (n = strlen(s) - 1; n >= 0; n--)
+        if (s[n] != ' ' && s[n] != '\t' && s[n] != '\n')
+            break;
+    s[n+1] = '\0';
+    return s;
+}
+
+// 主函数
+int main(int argc, char *argv[])
+{   
+    char s1[] = "  hello, world!   	";
+    char s2[] = "    -12345		   ";
+    printf("'%s' translated to '%s'\n", s1, my_trim(s1));
+    printf("'%s' translated to '%s'\n", s2, my_trim(s2));
+    return 0;
+}
+```
+
+编译并执行：
+
+```shell
+$ cc my_trim.c -o my_trim.c
+$ my_trim.o
+'  hello, world!' translated to '  hello, world!'
+'    -12345' translated to '    -12345'
+```
+
+上述代码不知为何``printf("%s")``并没有显示字符串最后的空格。
+
+
