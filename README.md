@@ -427,7 +427,8 @@ c
 
 运行时，我输入字母a，马上就输出字母a，我再输出字母b，马上就输出字母b，我再输出字母c，马上就输出字母c，我按Ctrl-D终止，此时程序就自动退出了。
 
-- Linux中，在新的一行的开头，按下Ctrl-D，就代表EOF（如果在一行的中间按下Ctrl-D，则表示输出"标准输入"的缓存区，所以这时必须按两次Ctrl-D）。参考[EOF是什么？](http://www.ruanyifeng.com/blog/2011/11/eof.html "EOF是什么？")
+- Linux中，在新的一行的开头，按下Ctrl-D，就代表EOF（如果在一行的中间按下Ctrl-D，则表示输出"标准输入"的缓存区，所以这时必须按两次Ctrl-D）。参考[EOF是什么？](http://www.ruanyifeng.com/blog/2011/11/eof.html "EOF是什么？")。
+- Windows中，在新的一行的开头，按下Ctrl-Z就代表EOF。
 - 字符在键盘，屏幕或其他任何地方无论以什么形式表现，它在机器内部都是以位模式存储的。```char```类型专门用于存储这种字符型数据，当然任何整型(```int```)也可以用于存储字符型数据，出于某些潜在的重要原因，在此使用```int```类型。
 - ```EOF```表示文件结束，End of file。定义在头文件```stdio.h```中 ，定义如下``` #define EOF (-1)```。
 
@@ -1278,6 +1279,206 @@ Result:-1
 ```
 
 ### ``switch``多路判断语句
+
+- ``switch``语句是一种多路判断语句，它测试表达式是否与一些常量整数值中的某一个值匹配，并执行相应的分支动作。
+- 每一个分支都由一个或多个整数常量或常量表达式标记。
+- 如果某个分支与表达式的值匹配，则从该分支开始执行。
+- 各分支表达式必须互不相同。
+- 如果没有哪一个分支匹配表达式，则执行标记为``default``的分支。
+- ``default``分支是可选的。
+- 如果没有``default``分支，也没有其他分支与表达式匹配，则该``switch``语句不执行任何动作。
+- 各分支及``default``分支的排列次序是任意的，但建议将``default``分支放在最后面。
+- 在``switch``语句中，``case``的作用只是一个标号，因此，某个分支中的代码执行完成后，程序将会进入下一个分支继续执行，除非在程序中显示地跳转。
+- 可以使用``break``或``return``语句进行跳转。
+- 依次执行各分支的做法有优点也有缺点，好的一面是它可以把若干个分支组成在一起完成一个任务(如下面的例子中case '0'到case '9')。不好的一面是从一个分支直接进入到下一个分支执行的做法并不健全，这样做在程序修改时很容易出错。
+- 正常情况下，为了防止直接进入到下一个分支执行，每个分支后必须以一个``break``语句结束。
+- 作为一个良好的程序设计风格，建议在``switch``语句最后一个分支``default``分支的代码块中也加入``break``语句结束。
+
+下面看一个使用switch语句统计各个数字、空白字符及其他所有字符出现的次数的例子：
+
+```c
+$ cat count_digit_and_space.c
+/**
+*@file count_digit_and_space.c
+*@brief 使用switch语句统计各个数字、空白字符及其他所有字符出现的次数
+*@author Zhaohui Mei<mzh.whut@gmail.com>
+*@date 2019-11-10
+*@return 0
+*/
+
+#include <stdio.h>
+
+
+// 函数声明
+int count_digit_space(void);
+
+// 函数定义
+int count_digit_space(void)
+{
+    int c, i, nwhite, nother, ndigit[10];
+    
+    nwhite = nother = 0;
+    for (i = 0; i<10; i++)
+       ndigit[i] = 0;
+    while ((c = getchar()) != EOF)
+    {
+        switch (c) {
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+                printf("case %c\n", c);
+                ndigit[c - '0']++;
+                break;
+            case ' ':
+            case '\t':
+            case '\n':
+                printf("case space/tab/new_line\n");
+                nwhite++;
+                break;
+            default:
+                printf("case default\n");
+                nother++;
+                break;
+       }
+    }
+   
+    printf("digits =");
+    for (i=0; i<10; i++){
+        printf(" %d", ndigit[i]);
+    }
+    printf(", white space = %d, other = %d\n", nwhite, nother);
+    return 0;
+}
+
+// 主函数
+int main(int argc, char *argv[])
+{
+    count_digit_space();
+    return 0;
+}
+
+```
+
+编译后执行：
+
+```shell
+$ cc count_digit_and_space.c -o count_digit_and_space.out
+
+$ count_digit_and_space.out
+abcd0123123123456456789 efg
+case default
+case default
+case default
+case default
+case 0
+case 1
+case 2
+case 3
+case 1
+case 2
+case 3
+case 1
+case 2
+case 3
+case 4
+case 5
+case 6
+case 4
+case 5
+case 6
+case 7
+case 8
+case 9
+case space/tab/new_line
+case default
+case default
+case default
+case space/tab/new_line
+^Z
+digits = 1 3 3 3 2 2 2 1 1 1, white space = 2, other = 7
+```
+
+按Ctrl-Z结束输入，可以看到统计结果中：
+
+- 0出现1次；1、2、3都出现了3次，4、5、6都出现了2次，7、8、9出现了1次，面空格出了2次，一次是"789 e"，另一次是"efg\n"处的换行符，而其他字符，包括前面的"abcd"以及最后的"efg"，所以一共是7次。
+- 多个``case``可以共用一个语句序列。
+
+下面这个例子是将字符串s复制到字符串t中，并在复制的过程中将换行符、制表符等不可见字符分别转换成\n、\t等相应的可见字符。
+
+```c
+$ cat escape.c
+/**
+*@file escape.c
+*@brief 将字符串s复制到字符串t,并在复制过程中将制表符、换行符等不可见字符分别转换成\t、\n等相应的可见的转义字符序列。要求使用switch语句。
+*@author Zhaohui Mei<mzh.whut@gmail.com>
+*@date 2019-11-10
+*@return 0
+*/
+
+#include <stdio.h>
+
+
+// 函数声明
+int escape(char s[], char t[]);
+
+// 函数定义
+int escape(char s[], char t[])
+{
+    int i = 0;
+    int j = 0;
+    while (s[i] != '\0')
+    {
+        switch (s[i]) {
+            case '\t':
+                t[j] = '\\';
+                j++;
+                t[j] = 't';
+                break;
+            case '\n':
+                t[j] = '\\';
+                j++;
+                t[j] = 'n';
+                break;
+            default:
+                t[j] = s[i];
+                break;
+        }
+        i++;
+        j++;
+    }
+    t[j] = '\0';
+    return 0;
+}
+
+// 主函数
+int main(int argc, char *argv[])
+{   
+    char s[] = "Hello		C	language";
+    char t[30];
+    escape(s,t);
+    printf("%s", t);
+    return 0;
+}
+
+```
+
+编译后执行：
+
+```shell
+$ cc escape.c -o escape.out
+$ escape.out
+Hello\t\tC\tlanguage
+```
+
+可以看到制表符已经转换成了"\t"了！此处因为不知道在字符串中表示换行符，并没有测试到"\n"的输出。
+
 
 ### ``while``循环语句
 
