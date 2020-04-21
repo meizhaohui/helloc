@@ -1,5 +1,7 @@
 # C程序设计语言总结
 
+Archived. Please see the [https://github.com/meizhaohui/vueblog](https://github.com/meizhaohui/vueblog)
+
 - 注：实验环境Manjaro发行版和Windows 10系统。
 
 Manjaro系统：
